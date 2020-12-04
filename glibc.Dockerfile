@@ -10,13 +10,12 @@ RUN GLIBC_VERSION="2.32-r0" \
     && GLIBC_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION" \
     && BASE_FILE="glibc-$GLIBC_VERSION.apk" \
     && BIN_FILE="glibc-bin-$GLIBC_VERSION.apk" \
-    && I18N_FILE="glibc-i18n-$GLIBC_VERSION.apk"
-
-# Download Packages
-RUN wget \
-    "$GLIBC_URL/$BASE_FILE" \
-    "$GLIBC_URL/$BIN_FILE" \
-    "$GLIBC_URL/$I18N_FILE"
+    && I18N_FILE="glibc-i18n-$GLIBC_VERSION.apk" \
+    # Download Packages
+    && wget \
+        "$GLIBC_URL/$BASE_FILE" \
+        "$GLIBC_URL/$BIN_FILE" \
+        "$GLIBC_URL/$I18N_FILE"
 
 # Install Packages
 RUN apk add --no-cache \
