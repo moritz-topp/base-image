@@ -30,7 +30,7 @@ RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates \
         "$BASE_FILE" \
         "$BIN_FILE" \
         "$I18N_FILE" \
-        #libstdc++ \
+        libstdc++ \
     # Cleanup
     && rm "/etc/apk/keys/sgerrand.rsa.pub" \
     && apk del glibc-i18n \
