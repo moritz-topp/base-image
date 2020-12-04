@@ -5,6 +5,11 @@ ENV LANG=C.UTF-8
 # Get Basic Packages
 RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates
 
+ARG GLIBC_VERSION=2.32-r0
+ARG GLIBC_URL=https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION
+
+RUN echo $GLIBC_URL
+
 # Define Variables
 RUN GLIBC_VERSION="2.32-r0" \
     && GLIBC_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION" \
