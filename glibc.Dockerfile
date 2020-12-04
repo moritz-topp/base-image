@@ -17,6 +17,18 @@ RUN wget -q \
     "$GLIBC_URL/$BIN_FILE" \
     "$GLIBC_URL/$I18N_FILE"
 
+# Add Public Key for Packages
+RUN echo \
+    "-----BEGIN PUBLIC KEY-----\
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApZ2u1KJKUu/fW4A25y9m\
+    y70AGEa/J3Wi5ibNVGNn1gT1r0VfgeWd0pUybS4UmcHdiNzxJPgoWQhV2SSW1JYu\
+    tOqKZF5QSN6X937PTUpNBjUvLtTQ1ve1fp39uf/lEXPpFpOPL88LKnDBgbh7wkCp\
+    m2KzLVGChf83MS0ShL6G9EQIAUxLm99VpgRjwqTQ/KfzGtpke1wqws4au0Ab4qPY\
+    KXvMLSPLUp7cfulWvhmZSegr5AdhNw5KNizPqCJT8ZrGvgHypXyiFvvAH5YRtSsc\
+    Zvo9GI2e2MaZyo9/lvb+LbLEJZKEQckqRj4P26gmASrZEPStwc+yqy1ShHLA0j6m\
+    1QIDAQAB\
+    -----END PUBLIC KEY-----" | sed 's/   */\n/g' > "/etc/apk/keys/sgerrand.rsa.pub"
+
 # Install Packages
 RUN apk add --no-cache \
         "$BASE_FILE" \
@@ -28,7 +40,8 @@ RUN /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 "$
     && echo "export LANG=$LANG" > /etc/profile.d/locale.sh
 
 # Cleanup
-RUN apk del glibc-i18n \
+RUN rm "/etc/apk/keys/sgerrand.rsa.pub" \
+    && apk del glibc-i18n \
     && rm "/root/.wget-hsts" \
     && apk del .build-dependencies \
     && rm \
