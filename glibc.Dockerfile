@@ -5,14 +5,14 @@ ENV LANG=C.UTF-8
 # Get Basic Packages
 RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates
 
-ARG GLIBC_VERSION=2.32-r0 \
-    GLIBC_URL=https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION \
-    BASE_FILE=glibc-$GLIBC_VERSION.apk \
-    BIN_FILE=glibc-bin-$GLIBC_VERSION.apk \
-    I18N_FILE=glibc-i18n-$GLIBC_VERSION.apk
+ARG GLIBC_VERSION=2.32-r0
+ARG GLIBC_URL=https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION
+ARG BASE_FILE=glibc-$GLIBC_VERSION.apk
+ARG BIN_FILE=glibc-bin-$GLIBC_VERSION.apk
+ARG I18N_FILE=glibc-i18n-$GLIBC_VERSION.apk
 
 # Download Packages
-RUN wget \
+RUN wget -q \
     "$GLIBC_URL/$BASE_FILE" \
     "$GLIBC_URL/$BIN_FILE" \
     "$GLIBC_URL/$I18N_FILE"
