@@ -15,6 +15,8 @@ RUN sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apac
     && sed -i "s#^DocumentRoot \".*#DocumentRoot \"/app\"#g" /etc/apache2/httpd.conf \
     && sed -i "s#/var/www/localhost/htdocs#/app#" /etc/apache2/httpd.conf \
     && printf "\n<Directory \"/app/public\">\n\tAllowOverride All\n</Directory>\n" >> /etc/apache2/httpd.conf
+    && printf "\nAccessFileName .htaccess\n" >> /etc/apache2/httpd.conf
+    && printf "\n<FilesMatch \"^\.ht\">\n\tRequire all denied\n</FilesMatch>\n" >> /etc/apache2/httpd.conf
 
 # PHP Config
 RUN sed -i "s/\;\?\\s\?memory_limit = .*/memory_limit = -1/" /etc/php7/php.ini
