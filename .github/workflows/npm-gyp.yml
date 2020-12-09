@@ -1,4 +1,4 @@
-name: glibc
+name: node-npm
 
 on:
     push:
