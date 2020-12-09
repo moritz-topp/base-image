@@ -12,8 +12,8 @@ RUN cp /usr/bin/php7 /usr/bin/php \
 
 # Apache Config
 RUN sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apache2/httpd.conf \
-    && sed -i "s#^DocumentRoot \".*#DocumentRoot \"/app/public\"#g" /etc/apache2/httpd.conf \
-    && sed -i "s#/var/www/localhost/htdocs#/app/public#" /etc/apache2/httpd.conf \
+    && sed -i "s#^DocumentRoot \".*#DocumentRoot \"/app\"#g" /etc/apache2/httpd.conf \
+    && sed -i "s#/var/www/localhost/htdocs#/app#" /etc/apache2/httpd.conf \
     && printf "\n<Directory \"/app/public\">\n\tAllowOverride All\n</Directory>\n" >> /etc/apache2/httpd.conf
 
 # PHP Config
@@ -25,7 +25,7 @@ RUN sed -i "s/\;\?\\s\?file_uploads = .*/file_uploads = On/" /etc/php7/php.ini
 RUN sed -i "s/\;\?\\s\?upload_max_filesize = .*/upload_max_filesize = 128M/" /etc/php7/php.ini
 RUN sed -i "s/\;\?\\s\?max_file_uploads = .*/max_file_uploads = 20/" /etc/php7/php.ini
 
-RUN mkdir -p /app/public && chown -R apache:apache /app && chmod -R 755 /app
+RUN mkdir /app && chown -R apache:apache /app && chmod -R 755 /app
 
 EXPOSE 80
 
