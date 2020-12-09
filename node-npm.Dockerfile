@@ -74,7 +74,7 @@ RUN addgroup -g 1000 node \
   && node --version \
   && npm --version
 
-COPY node-npm.sh /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["docker-entrypoint.sh"]
+COPY node-npm.sh /usr/local/bin/
+ENTRYPOINT ["node-npm.sh"]
 
 CMD [ "node" ]
