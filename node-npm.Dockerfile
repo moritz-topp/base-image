@@ -75,6 +75,7 @@ RUN addgroup -g 1000 node \
   && npm --version
 
 COPY node-npm.sh /usr/local/bin/
-ENTRYPOINT ["node-npm.sh"]
+RUN chmod 755 /usr/local/bin/node-npm.sh
+ENTRYPOINT ["/usr/local/bin/node-npm.sh"]
 
 CMD [ "node" ]
