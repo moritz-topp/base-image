@@ -1,4 +1,4 @@
-name: node-npm
+name: node-gyp
 
 on:
     push:
