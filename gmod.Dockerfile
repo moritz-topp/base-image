@@ -38,5 +38,10 @@ COPY --from=builder /lib/i386-linux-gnu /lib/
 # One dry run, to get updates
 RUN /app/steamcmd.sh +quit
 
-ENTRYPOINT ["/app/steamcmd.sh"]
-CMD ["+help", "+quit"]
+# Install GMOD and CSS
+RUN /app/steamcmd.sh +login anonymous +force_install_dir /app/css +app_update 232330 -validate +quit
+RUN /app/steamcmd.sh +login anonymous +force_install_dir /app/gmod +app_update 4020 -validate +quit
+
+RUN echo '"mountcfg" {"cstrike" "/app/css/cstrike"}' > /app/gmod/garrysmod/cfg/mount.cfg
+
+ENTRYPOINT ["/app/gmod/srcds_run"]
