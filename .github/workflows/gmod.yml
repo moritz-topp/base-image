@@ -11,7 +11,7 @@ on:
     workflow_dispatch:
     # Enable schedule building
     schedule:
-        - cron: "0 3 * * *"
+        - cron: "0 3 * * 3"
 env:
     # Docker NAMESPACE
     NAMESPACE: moritztopp
