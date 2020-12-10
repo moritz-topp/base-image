@@ -1,18 +1,28 @@
-FROM alpine:3.12 as builder
+FROM ubuntu:18.04 as builder
 
-RUN addgroup -g 1000 steam \
-    && adduser -u 1000 -G steam -s /bin/sh -D steam
+ENV DEBIAN_FRONTEND noninteractive
+ENV LANG C.UTF-8
+ENV TZ Europe/Berlin
 
-RUN apk update \
-    && apk add --no-cache curl tar \
-    && rm -rf /var/cache/apk/*
+# Insert Steam prompt answers (https://github.com/steamcmd/docker/blob/master/dockerfiles/ubuntu-18/Dockerfile)
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN echo steam steam/question select "I AGREE" | debconf-set-selections \
+    && echo steam steam/license note '' | debconf-set-selections
 
+# Download libs
+RUN dpkg --add-architecture i386 \
+    && apt-get update -y \
+	&& apt-get install -y --no-install-recommends steamcmd curl tar ca-certificates \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Download steamcmd
 WORKDIR /app
-
-RUN curl http://media.steampowered.com/installer/steamcmd_linux.tar.gz \
-    --output steamcmd.tar.gz --silent
-RUN tar -xvzf steamcmd.tar.gz \
+RUN curl https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz \
+    --output steamcmd.tar.gz --silent \
+    && tar -xvzf steamcmd.tar.gz \
     && rm steamcmd.tar.gz
+
+
 
 FROM alpine:3.12 as prod
 
@@ -20,10 +30,13 @@ RUN apk update \
     && apk add --no-cache bash \
     && rm -rf /var/cache/apk/*
 
-COPY --from=builder /app /app
+COPY --from=builder /app/steamcmd.sh /app/steamcmd.sh
+COPY --from=builder /app/linux32/steamcmd /app/linux32/steamcmd
+COPY --from=builder /app/linux32/libstdc++.so.6 /lib/
+COPY --from=builder /lib/i386-linux-gnu /lib/
 
 # One dry run, to get updates
-RUN /app/steamcmd +quit
+RUN /app/steamcmd.sh +quit
 
-ENTRYPOINT ["/app/steamcmd"]
+ENTRYPOINT ["/app/steamcmd.sh"]
 CMD ["+help", "+quit"]
