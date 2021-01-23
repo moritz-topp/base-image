@@ -24,7 +24,7 @@ RUN curl https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz 
 
 
 
-FROM alpine:3.12 as prod
+FROM alpine:3.13 as prod
 
 RUN apk update \
     && apk add --no-cache bash \
