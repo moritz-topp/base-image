@@ -44,4 +44,10 @@ RUN /app/steamcmd.sh +login anonymous +force_install_dir /app/gmod +app_update 4
 
 RUN echo '"mountcfg" {"cstrike" "/app/css/cstrike"}' > /app/gmod/garrysmod/cfg/mount.cfg
 
+WORKDIR /app/gmod/garrysmod/gamemodes/terrortown/entities/weapons/
+
+RUN rm -R weapon_ttt_m16.lua weapon_ttt_c4.lua weapon_zm_sledge.lua
+
+WORKDIR /app
+
 ENTRYPOINT ["/app/gmod/srcds_run"]
