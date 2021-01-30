@@ -1,6 +1,5 @@
-FROM alpine
+FROM alpine:3.13
 
-ENV LANG=C.UTF-8
 ARG GLIBC_VERSION=2.32-r0
 ARG GLIBC_URL=https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION
 ARG BASE_FILE=glibc-$GLIBC_VERSION.apk
@@ -30,8 +29,6 @@ RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates \
         "$BASE_FILE" \
         "$BIN_FILE" \
         "$I18N_FILE" \
-        libstdc++ \
-        libstdc++6 \
     # Cleanup
     && rm "/etc/apk/keys/sgerrand.rsa.pub" \
     && apk del glibc-i18n \
@@ -43,5 +40,4 @@ RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates \
         "$I18N_FILE"
 
 # Set Locale
-RUN /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 "$LANG" || true \
-    && echo "export LANG=$LANG" > /etc/profile.d/locale.sh
+RUN /usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8
