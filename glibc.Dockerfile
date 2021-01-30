@@ -30,7 +30,7 @@ RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates \
         "$BASE_FILE" \
         "$BIN_FILE" \
         "$I18N_FILE" \
-        libc6-compact \
+        libstdc++ \
         libstdc++6 \
     # Cleanup
     && rm "/etc/apk/keys/sgerrand.rsa.pub" \
