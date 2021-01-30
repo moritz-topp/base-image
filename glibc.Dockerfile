@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM alpine:3.13 AS prod
 
 ARG GLIBC_VERSION=2.32-r0
 ARG GLIBC_URL=https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION
@@ -9,16 +9,7 @@ ARG I18N_FILE=glibc-i18n-$GLIBC_VERSION.apk
 # Install glibc
 RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates \
     # Install Public Key for sgerrand glibc Package
-    && echo \
-        "-----BEGIN PUBLIC KEY-----\
-        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApZ2u1KJKUu/fW4A25y9m\
-        y70AGEa/J3Wi5ibNVGNn1gT1r0VfgeWd0pUybS4UmcHdiNzxJPgoWQhV2SSW1JYu\
-        tOqKZF5QSN6X937PTUpNBjUvLtTQ1ve1fp39uf/lEXPpFpOPL88LKnDBgbh7wkCp\
-        m2KzLVGChf83MS0ShL6G9EQIAUxLm99VpgRjwqTQ/KfzGtpke1wqws4au0Ab4qPY\
-        KXvMLSPLUp7cfulWvhmZSegr5AdhNw5KNizPqCJT8ZrGvgHypXyiFvvAH5YRtSsc\
-        Zvo9GI2e2MaZyo9/lvb+LbLEJZKEQckqRj4P26gmASrZEPStwc+yqy1ShHLA0j6m\
-        1QIDAQAB\
-        -----END PUBLIC KEY-----" | sed 's/   */\n/g' > "/etc/apk/keys/sgerrand.rsa.pub" \
+    && wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
     # Download glibc Packages
     && wget -q \
         "$GLIBC_URL/$BASE_FILE" \
@@ -29,9 +20,9 @@ RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates \
         "$BASE_FILE" \
         "$BIN_FILE" \
         "$I18N_FILE" \
+        libstdc++ \
     # Cleanup
     && rm "/etc/apk/keys/sgerrand.rsa.pub" \
-    && apk del glibc-i18n \
     && rm "/root/.wget-hsts" \
     && apk del .build-dependencies \
     && rm \
