@@ -2,6 +2,8 @@ name: php-apache
 
 on:
     push:
+        paths:
+            - "php-apache.Dockerfile"
         branches:
             - master
 
