@@ -2,6 +2,8 @@ name: gmod
 
 on:
     push:
+        paths:
+            - "gmod.Dockerfile"
         branches:
             - master
 
