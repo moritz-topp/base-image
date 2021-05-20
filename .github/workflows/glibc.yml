@@ -2,6 +2,8 @@ name: glibc
 
 on:
     push:
+        paths:
+            - "glibc.Dockerfile"
         branches:
             - master
 
