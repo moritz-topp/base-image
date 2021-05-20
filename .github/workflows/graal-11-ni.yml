@@ -2,6 +2,8 @@ name: graal-11-ni
 
 on:
     push:
+        paths:
+            - "graal-11-ni.Dockerfile"
         branches:
             - master
 
