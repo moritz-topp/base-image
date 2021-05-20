@@ -2,6 +2,8 @@ name: npm-gyp
 
 on:
     push:
+        paths:
+            - "npm-gyp.Dockerfile"
         branches:
             - master
 
