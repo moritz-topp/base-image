@@ -2,6 +2,9 @@ name: node-npm
 
 on:
     push:
+        paths:
+            - "node-npm.Dockerfile"
+            - "node-npm.sh"
         branches:
             - master
 
