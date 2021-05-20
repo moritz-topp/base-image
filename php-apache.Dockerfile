@@ -28,6 +28,8 @@ RUN sed -i "s/\;\?\\s\?file_uploads = .*/file_uploads = On/" /etc/php7/php.ini
 RUN sed -i "s/\;\?\\s\?upload_max_filesize = .*/upload_max_filesize = 128M/" /etc/php7/php.ini
 RUN sed -i "s/\;\?\\s\?max_file_uploads = .*/max_file_uploads = 20/" /etc/php7/php.ini
 
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 RUN mkdir /app && chown -R apache:apache /app && chmod -R 755 /app
 
 EXPOSE 80
