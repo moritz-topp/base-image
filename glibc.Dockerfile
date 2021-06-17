@@ -1,4 +1,4 @@
-FROM alpine:3.13 AS prod
+FROM alpine:3.14 AS prod
 
 ARG GLIBC_VERSION=2.32-r0
 ARG GLIBC_URL=https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION
