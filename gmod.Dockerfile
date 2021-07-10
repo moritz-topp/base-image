@@ -2,7 +2,7 @@ FROM ubuntu:20.04 as builder
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
-ENV TZ Europe/Berlin
+ENV TZ=Europe/Berlin
 
 # Insert Steam prompt answers (https://github.com/steamcmd/docker/blob/master/dockerfiles/ubuntu-18/Dockerfile)
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -25,6 +25,8 @@ RUN curl https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz 
 
 
 FROM alpine:3.14 as prod
+
+ENV TZ=Europe/Berlin
 
 RUN apk update \
     && apk add --no-cache bash \

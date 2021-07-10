@@ -1,4 +1,5 @@
 FROM alpine:3.14
+ENV TZ=Europe/Berlin
 
 # Install
 RUN apk update \

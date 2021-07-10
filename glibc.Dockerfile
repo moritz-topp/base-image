@@ -1,5 +1,7 @@
 FROM alpine:3.14 AS prod
 
+ENV TZ=Europe/Berlin
+
 ARG GLIBC_VERSION=2.32-r0
 ARG GLIBC_URL=https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION
 ARG BASE_FILE=glibc-$GLIBC_VERSION.apk
